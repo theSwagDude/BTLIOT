@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MQTT Sensor Data</title>
+    <!-- Include your chart library (e.g., Chart.js) here -->
+</head>
+<body>
+
+    <div>
+        <h1>Sensor Data</h1>
+        <!-- Display your chart here using Thymeleaf to iterate over sensorDataList -->
+        <div th:each="data : ${sensorDataList}">
+            <!-- Display data properties here -->
+        </div>
+    </div>
+
+    <div>
+        <h2>Control</h2>
+        <!-- Add buttons to control esp32/status and esp32/relay topics -->
+        <form action="/control/status" method="post">
+            <button type="submit">Toggle Status</button>
+        </form>
+        <form action="/control/relay" method="post">
+            <button type="submit">Toggle Relay</button>
+        </form>
+    </div>
+    
+    <p th:text="${temp}"></p>
+    
+    <form action="/home/publishdata" method="post">
+		<input type="hidden" name="topic" value="esp32/status"/>
+		<input type="text" name="message" />
+		<input type="hidden" name="retained" value="false"/>
+		<input type="hidden" name="qos" value="0"/>
+		<button>Auto</button>
+	</form>
+    <form action="/home/publishdata" method="post">
+		<input type="hidden" name="topic" value="esp32/relay"/>
+		<input type="text" name="message" />
+		<input type="hidden" name="retained" value="false"/>
+		<input type="hidden" name="qos" value="0"/>
+		<button>trạng thái máy bơm tưới cây</button>
+	</form>
+
+
+</body>
+</html>
