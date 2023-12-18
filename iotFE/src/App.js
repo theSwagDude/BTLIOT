@@ -2,7 +2,8 @@ import logo from './logo.svg';
 import './App.css';
 import { LineGraph1, LineGraph2, LineGraph3 } from './components/LineGraph';
 import { Gauge1, Gauge2, Gauge3 } from './components/Gauge';
-import Button from './components/Button';
+// import Button from './components/Button';
+import Pins from './components/Pins';
 // import SensorDataChart from './components/SensorDataChart';
 
 function App() {
@@ -31,8 +32,9 @@ function App() {
         <div className="gauge">
           <Gauge3></Gauge3>
         </div>
+
       </div>
-      <div><Button></Button></div>
+      <div><Pins></Pins></div>
     </div>
   );
 }
