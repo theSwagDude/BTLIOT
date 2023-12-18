@@ -3,10 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 
 
-export function LineGraph1() {
+export function LineGraph1({ timeRange, setTimeRange }) {
   const [data, setData] = useState(null);
-  const [timeRange, setTimeRange] = useState('all'); // default to 'all'
-
   useEffect(() => {
     fetch('http://localhost:8080/data/sensor')
       .then(response => response.json())
@@ -47,30 +45,38 @@ export function LineGraph1() {
       });
   }, [timeRange]); // re-run effect when timeRange changes
 
-  return (
-    <div>
-      <select value={timeRange} onChange={e => setTimeRange(e.target.value)}>
-        <option value="all">All</option>
-        <option value="week">This Week</option>
-        <option value="month">This Month</option>
-        <option value="today">Today</option>
-      </select>
-      {data ? <Line data={data} /> : null}
-    </div>
-  );
+  return data ? <Line data={data} /> : null;
 }
 
 
-export function LineGraph2() {
+export function LineGraph2({ timeRange, setTimeRange }) {
   const [data, setData] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:8080/data/sensor')
       .then(response => response.json())
       .then(data => {
-        // assuming that the data is an array of objects
-        const labels = data.map(item => new Date(item.timestamp).toLocaleString());
-        const humidityData = data.map(item => item.humidity);
+        data.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+        // filter data based on timeRange
+        const now = new Date();
+        const filteredData = data.filter(item => {
+          const itemDate = new Date(item.timestamp);
+          switch (timeRange) {
+            case 'week':
+              const oneWeekAgo = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7);
+              return itemDate >= oneWeekAgo;
+            case 'month':
+              const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+              return itemDate >= oneMonthAgo;
+            case 'today':
+              const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+              return itemDate >= today;
+            default:
+              return true; // no filtering for 'all'
+          }
+        });
+        const labels = filteredData.map(item => new Date(item.timestamp).toLocaleString());
+        const humidityData = filteredData.map(item => item.humidity);
         setData({
           labels,
           datasets: [
@@ -83,21 +89,39 @@ export function LineGraph2() {
           ],
         });
       });
-  }, []);
+  }, [timeRange]);
 
   return data ? <Line data={data} /> : null;
 }
 
-export function LineGraph3() {
+export function LineGraph3({ timeRange, setTimeRange }) {
   const [data, setData] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:8080/data/sensor')
       .then(response => response.json())
       .then(data => {
-        // assuming that the data is an array of objects
-        const labels = data.map(item => new Date(item.timestamp).toLocaleString());
-        const soilMoistureData = data.map(item => item.soil_moisture);
+        data.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+        // filter data based on timeRange
+        const now = new Date();
+        const filteredData = data.filter(item => {
+          const itemDate = new Date(item.timestamp);
+          switch (timeRange) {
+            case 'week':
+              const oneWeekAgo = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7);
+              return itemDate >= oneWeekAgo;
+            case 'month':
+              const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+              return itemDate >= oneMonthAgo;
+            case 'today':
+              const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+              return itemDate >= today;
+            default:
+              return true; // no filtering for 'all'
+          }
+        });
+        const labels = filteredData.map(item => new Date(item.timestamp).toLocaleString());
+        const soilMoistureData = filteredData.map(item => item.soil_moisture);
         setData({
           labels,
           datasets: [
@@ -110,7 +134,7 @@ export function LineGraph3() {
           ],
         });
       });
-  }, []);
+  }, [timeRange]);
 
   return data ? <Line data={data} /> : null;
 }

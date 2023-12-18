@@ -5,32 +5,42 @@ import { Gauge1, Gauge2, Gauge3 } from './components/Gauge';
 // import Button from './components/Button';
 import Pins from './components/Pins';
 // import SensorDataChart from './components/SensorDataChart';
+import { useState } from 'react';
 
 function App() {
+  const [timeRange, setTimeRange] = useState('today');
+
   return (
     <div>
       {/* <SensorDataChart/> */}
       <h1> Smart Garden</h1>
+      <div>
+        <button className="button button1" onClick={() => setTimeRange('week')}>Week</button>
+        <button className="button button2" onClick={() => setTimeRange('month')}>Month</button>
+        <button className="button button3" onClick={() => setTimeRange('today')}>Today</button>
+        <button className="button button4" onClick={() => setTimeRange('all')}>All</button>
+
+      </div>
       <div className="graph-container">
         <div className="graph">
-          <LineGraph1></LineGraph1>
+          <LineGraph1 timeRange={timeRange} setTimeRange={setTimeRange} />
         </div>
         <div className="graph">
-          <LineGraph2></LineGraph2>
+          <LineGraph2 timeRange={timeRange} setTimeRange={setTimeRange}></LineGraph2>
         </div>
         <div className="graph">
-          <LineGraph3></LineGraph3>
+          <LineGraph3 timeRange={timeRange} setTimeRange={setTimeRange}></LineGraph3>
         </div>
       </div>
       <div className="gauge-container">
         <div className="gauge">
-          <Gauge1></Gauge1>
+          <Gauge1 timeRange={timeRange} setTimeRange={setTimeRange}></Gauge1>
         </div>
         <div className="gauge">
-          <Gauge2></Gauge2>
+          <Gauge2 timeRange={timeRange} setTimeRange={setTimeRange}></Gauge2>
         </div>
         <div className="gauge">
-          <Gauge3></Gauge3>
+          <Gauge3 timeRange={timeRange} setTimeRange={setTimeRange}></Gauge3>
         </div>
 
       </div>
