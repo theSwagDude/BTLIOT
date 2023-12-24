@@ -74,14 +74,14 @@ function Pins() {
 
     return (
         <div>
-            <button className="button button1">
-                relay_PIN_1 is {relayState.relay_PIN_1 ? 'ON' : 'OFF'}
+            <button className="buttonP buttonP1">
+                Float <br/> {relayState.relay_PIN_1 ? 'ON' : 'OFF'}
             </button>
-            <button className="button button2" onClick={handleClick2}>
-                relay_PIN_2 is {relayState.relay_PIN_2 ? 'ON' : 'OFF'}
+            <button className="buttonP buttonP2" onClick={handleClick2}>
+                Pump <br/> {relayState.relay_PIN_2 ? 'ON' : 'OFF'}
             </button>
-            <button className="button button3" onClick={handleClick3}>
-                auto is {auto ? 'ON' : 'OFF'}
+            <button className="buttonP button3" onClick={handleClick3}>
+                Auto <br/> {auto ? 'ON' : 'OFF'}
             </button>
         </div>
 
